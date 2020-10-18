@@ -19,13 +19,13 @@
 			  	<?php endforeach;?>
 			  </select>
 			</div>
-			<!--div class="col-3">
+			<div class="col-3">
 			  <select class="form-control" placeholder="Rol" aria-label="Rol" id="selectAddRolLink">
 			  	<option value="0" selected disabled>Rol</option>
 			  	<option value="1">Usuario</option>
 			  	<option value="2">Editor</option>
 			  </select>
-			</div-->
+			</div>
 			<div class="col-4">
 			  <button class="btn btn-success" onclick="addNewLink()" style="width: 100%;"><i class="far fa-check-square"></i></button>
 			</div>
@@ -70,16 +70,17 @@
 					
 					<?php if($row->estadousce == 0):?>
 						<td><i class="far fa-eye fa-2x"></i></td>
-						<td><button class="btn btn-info" onclick="cambiarEstadoUA(1,<?=$row->idc?>)"><i class="far fa-eye-slash"></i></button></td>
+						<!--Para llamar a las funciones respectivas a continuación se cambió el atributo que piden las funciones de idc a idce que es como están en el modelo-->
+						<td><button class="btn btn-info" onclick="cambiarEstadoUA(1,<?=$row->idusce?>)"><i class="far fa-eye-slash"></i></button></td>
 					<?php else:?>
 						<td><i class="far fa-eye-slash fa-2x"></i></td>
-						<td><button class="btn btn-info" onclick="cambiarEstadoUA(0,<?=$row->idc?>)"><i class="far fa-eye"></i></button></td>
+						<td><button class="btn btn-info" onclick="cambiarEstadoUA(0,<?=$row->idusce?>)"><i class="far fa-eye"></i></button></td>
 					<?php endif;?>
 					<td>
-						<button class="btn btn-success" onclick="editLink(<?=$row->idc;?>)"><i class="far fa-save"></i></button>
+						<button class="btn btn-success" onclick="editLink(<?=$row->idusce;?>)"><i class="far fa-save"></i></button>
 					</td>
 					<td>
-						<button class="btn btn-danger" onclick="deleteLink(<?=$row->idce;?>)"><i class="far fa-trash-alt"></i></button>
+						<button class="btn btn-danger" onclick="deleteLink(<?=$row->idusce;?>)"><i class="far fa-trash-alt"></i></button>
 					</td>
 				</tr>
 			<?php endforeach;?>

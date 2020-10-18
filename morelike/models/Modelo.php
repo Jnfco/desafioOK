@@ -220,7 +220,9 @@ class Modelo extends CI_Model{
         $this->historialIntranet("Tabla: usuario - Cambio de Estado User - Id: ".$id." Estado: ".$estado);
     }
     function listarLinks(){
-        $sql = "select usuario.id as idu, usuario.nombre, usuario.rut, usuario.estado as estadousuario, centro.id as idc, centro.nombre, centro.estado as estadocentro, usce.estado as estadousce, usce.idce from usce join usuario on usuario.id = usce.idus join centro on centro.id = usce.idce order by usuario.nombre, centro.nombre";
+        //se cambia la consulta en usce.idce por usce.id 
+        $sql ="select usuario.id as idu, usuario.nombre, usuario.rut, usuario.estado as estadousuario, centro.id as idc, centro.nombre, centro.estado as estadocentro, usce.estado as estadousce, usce.id as idusce from usce join usuario on usuario.id = usce.idus join centro on centro.id = usce.idce order by usuario.nombre, centro.nombre";
+        //$sql = "select usuario.id as idu, usuario.nombre, usuario.rut, usuario.estado as estadousuario, centro.id as idc, centro.nombre, centro.estado as estadocentro, usce.estado as estadousce, usce.idce from usce join usuario on usuario.id = usce.idus join centro on centro.id = usce.idce order by usuario.nombre, centro.nombre";
         return $this->db->query($sql)->result();
     }
     function buscaLinks(){
@@ -243,7 +245,8 @@ class Modelo extends CI_Model{
                 return true;
             }
         }else{
-            $sql = "select * from usce where usce.idus = ".$usuario." and usce.ida = ".$area." and usce.id !=".$id;
+            //Se cambia en la consulta de usce.ida a usce.idce
+            $sql = "select * from usce where usce.idus = ".$usuario." and usce.idce = ".$area." and usce.id !=".$id;
             $res = $this->db->query($sql);
             if($res->num_rows() == 0){
                 $data['idce'] = $area;
@@ -266,7 +269,7 @@ class Modelo extends CI_Model{
     }
     function deleteLink($id){
         $this->db->where("id",$id);
-        $this->db->delete("ua");
+        $this->db->delete("usce");
         $this->historialIntranet("Tabla: ua - Eliminacion de Link ".$id);
     }
     function subirFichero($idarea,$cadenaArchivos,$fecha,$user, $ubicacion,$para){
