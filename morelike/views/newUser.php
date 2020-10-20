@@ -59,7 +59,7 @@
 						<td ><i class="far fa-eye-slash fa-2x"></i></td>
 						<td ><button class="btn btn-info" onclick="cambiarEstadoUser(0,<?=$row->id?>)"><i class="far fa-eye"></i></button></td>
 					<?php endif;?>
-					<!--td rowspan="2">
+					<td rowspan="2">
 						<button class="btn btn-success" onclick="editUser(<?=$row->id;?>)"><i class="far fa-save"></i></button>
 					</td-->
 				</tr>
