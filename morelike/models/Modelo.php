@@ -29,7 +29,7 @@ class Modelo extends CI_Model{
         }
         // descomentar if de condicion de tipo de usuario ya que venia comentado
         if($super == 0){
-            $sql = "select usuario.id, usuario.nombre, usuario.rut, usuario.acceso, usuario.rol, centro.id as idce, centro.nombre as nombreCentro from usuario 
+            $sql = "select usuario.id, usuario.nombre, usuario.rut, usuario.acceso, usuario.rol, centro.id as idce, centro.nombre as nombreCentro from usuario
                 join usce on usuario.id = usce.idus
                 join centro on centro.id = usce.idce where usuario.rut = '".$rut."' order by centro.nombre";
         }else{
@@ -192,20 +192,30 @@ class Modelo extends CI_Model{
                 return false;
             }
         }else{
+            //Funcion engañosa, dado a que necesitamos editar el usuario existente, entonces preguntamos por rut y id, siendo el id un dato autoincrement el cual actua como pseudo clave primaria.
             //Valido que el nuevo usuario no esté repetido con su rut
-            $sql = "select * from usuario where rut = '".$rut."' and id !=".$id;
+            $sql = "select * from usuario where rut = '".$rut."' and id =".$id;
             $res = $this->db->query($sql)->num_rows();
-            if($res > 0 ){//Significa que hay otro usuario anterior con el mismo rut
+            if($res <= 0 ){//Significa que hay otro usuario anterior con el mismo rut
                 return true;
             }else{
                 //Solo debo actualizar la clave si es que el usuario ingresó una nueva clave, por lo que deberé comparar el hash que viene con el que ya está en la base de datos.
-                $sql = "select * from usuario where clave = '".$clave."' and id =".$id;
+                //Faltaba la funcion para transformar la clave a hash.
+                $sql = "select * from usuario where clave = '".md5($clave)."' and id =".$id;
                 $res1 = $this->db->query($sql)->num_rows();
                 if($res1 == 0){
                     $data['clave'] = md5($clave);
                 }
                 $data['rut'] = $rut;
                 $data['nombre'] = $nombre;
+                //Se agregan los campos faltantes para editar, fecha nacimiento, especialidad y rol
+                $data['fnac'] = $fNac;
+                $data['especialidad'] = $especialidad;
+                $data['rol']    = $cargo;
+                if($op == 2){
+                    $data['estado']    = 1;
+                    
+                }
                 $this->db->where("id",$id);
                 $this->db->update("usuario",$data);
                 $this->historialIntranet("Tabla: usuario - Cambio de User - Id: ".$id." Nombre: ".$nombre);
@@ -220,7 +230,7 @@ class Modelo extends CI_Model{
         $this->historialIntranet("Tabla: usuario - Cambio de Estado User - Id: ".$id." Estado: ".$estado);
     }
     function listarLinks(){
-        //se cambia la consulta en usce.idce por usce.id 
+        //se cambia la consulta en usce.idce por usce.id
         $sql ="select usuario.id as idu, usuario.nombre, usuario.rut, usuario.estado as estadousuario, centro.id as idc, centro.nombre, centro.estado as estadocentro, usce.estado as estadousce, usce.id as idusce from usce join usuario on usuario.id = usce.idus join centro on centro.id = usce.idce order by usuario.nombre, centro.nombre";
         //$sql = "select usuario.id as idu, usuario.nombre, usuario.rut, usuario.estado as estadousuario, centro.id as idc, centro.nombre, centro.estado as estadocentro, usce.estado as estadousce, usce.idce from usce join usuario on usuario.id = usce.idus join centro on centro.id = usce.idce order by usuario.nombre, centro.nombre";
         return $this->db->query($sql)->result();
@@ -279,7 +289,7 @@ class Modelo extends CI_Model{
         $data['user'] = $user;
         $data['ubicacion'] = $ubicacion;
         $data['para'] = $para;
-        
+
         $this->db->select("*");
         $this->db->where('area',$idarea);
         $this->db->where('nombre',$cadenaArchivos);

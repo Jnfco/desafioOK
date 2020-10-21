@@ -66,20 +66,20 @@
 				</tr>
 				<tr>
 					<td>
-					  <input type="date" class="form-control" placeholder="Fecha Nacimiento" aria-label="Fecha Nacimiento" id="txtAddUserFNac">
+					  <input type="date" class="form-control" placeholder="Fecha Nacimiento" aria-label="Fecha Nacimiento" id="txtAddUserFNac<?=$row->id?>">
 					</td>
 					<td>
-					  <select class="form-control" placeholder="Especialdad" aria-label="Especialidad" id="txtAddUserEspecialidad">
+					  <select class="form-control" placeholder="Especialdad" aria-label="Especialidad" id="txtAddUserEspecialidad<?=$row->id?>">
 					  	<option selected disabled>Especialidad</option>
-					  	<option value="enfermeria">Enfermería</option>
-					  	<option value="tens">TENS</option>
+					  	<option value="Enfermeria">Enfermería</option>
+					  	<option value="Tens">TENS</option>
 					  </select>
 					</td>
 					<td>
-					  <select class="form-control" placeholder="Cargo" aria-label="Cargo" id="txtAddUserCargo">
+					  <select class="form-control" placeholder="Cargo" aria-label="Cargo" id="txtAddUserCargo<?=$row->id?>">
 					  	<option selected disabled>Cargo</option>
-					  	<option value="funcionario">Funcionario</option>
-					  	<option value="administrador">Administrador</option>
+					  	<option value="Funcionario">Funcionario</option>
+					  	<option value="Administrador">Administrador</option>
 					  </select>
 					</td>
 					</tr>
@@ -127,8 +127,10 @@
 		});
 	}
 	function editUser(id){
-		addUser($("#rut"+id).val(),$("#nombre"+id).val(),$("#clave"+id).val(),1,id);
+		//Se agegan los campos faltantes para editar, fecha nacimiento, especialidad y rol
+		addUser($("#rut"+id).val(),$("#nombre"+id).val(),$("#clave"+id).val(),$("#txtAddUserFNac"+id).val(),$("#txtAddUserEspecialidad"+id).val(),$("#txtAddUserCargo"+id).val(),1,id);
 	}
+	
 	function addUser(rut, nombre, clave,fNac,especialidad, cargo, op, id){
 		$.post(base_url+"Principal/addNewUser",{
 			rut:rut,
