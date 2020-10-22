@@ -77,6 +77,13 @@ class Modelo extends CI_Model{
         $data = array("descripcion"=>$descripcion,"fecha"=>Date("Y-m-d H:i:s"),"ingreso"=>$ingreso,"egreso"=>$egreso, "saldo"=>$saldo);
         $this->db->insert("registros",$data);
     }
+
+    //Se agrega la función para eliminar un registro en modelo, la cual realiza la consulta correspondiente para realizar la eliminación según el id del registro seleccionado
+    function deleteRegistro($id){
+        $this->db->where("id",$id);
+        $this->db->delete("registros");
+    }
+
     function buscarPacienteRut($rut){
         $this->db->where("rut",$rut);
         return $this->db->get("paciente")->result();

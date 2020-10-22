@@ -119,6 +119,13 @@ class Principal extends CI_Controller {
 		$egreso 	 = $this->input->post("egreso");
 		$this->Modelo->saveProcedimiento($descripcion,$ingreso,$egreso);
 	}
+
+	//Se crea la función para eliminar un registro la cual llama al modelo
+	function deleteRegistro(){
+		$id = $this->input->post("id");
+		$this->Modelo->deleteRegistro($id);
+	}
+
 	function traeMasRegistros(){
 		$desde = $this->input->post("desde");
 		$result = $this->Modelo->buscarUltimosRegistrosDesde($desde);

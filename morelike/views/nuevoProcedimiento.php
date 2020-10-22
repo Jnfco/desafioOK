@@ -54,17 +54,23 @@
 				<th>Ingreso</th>
 				<th>Egreso</th>
 				<th>Saldo</th>
+				
 				<?php foreach($data as $row):?>
 				<tr>
 					<td><?=substr($row->fecha,0,10)?></td>
 					<td><?=$row->descripcion?></td>
 					<td><?=number_format($row->ingreso,0,",",".")?></td>
 					<td><?=number_format($row->egreso,0,",",".")?></td>
+					
+					
 					<?php if($row->saldo>0):?>
 					<td class="btn-success"><?=number_format($row->saldo,0,",",".")?></td>
 					<?php else:?>
 					<td class="btn-danger"><?=number_format($row->saldo,0,",",".")?></td>
+					
 					<?php endif;?>
+					<!---- Se agrega un botón para eleminar un registro en particular el cual llama la función de eliminar registro-->
+					<td><button class="btn btn-danger" onclick="deleteRegistro(<?=$row->id;?>)" ><i class="far fa-trash-alt"></i></button></td>
 				</tr>
 				<?php endforeach;?>
 			</table>
@@ -176,6 +182,15 @@
 				$("#direccionPaciente").val(data[0].domicilio);
 			},'json')
 	}
+
+	//Se agrega la función para eliminar un registro
+	function deleteRegistro(id){
+		$.post(base_url+"Principal/deleteRegistro",{id:id},function(){
+			$("#contenedor").hide("fast");
+			nuevoProcedimiento();
+		});
+	}
+
 	function calcularEdad(){
 		var fNac = $("#fNacimiento").val();
 		var birthday_arr = fNac.split("-");
