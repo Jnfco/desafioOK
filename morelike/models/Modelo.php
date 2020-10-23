@@ -79,9 +79,24 @@ class Modelo extends CI_Model{
     }
 
     //Se agrega la función para eliminar un registro en modelo, la cual realiza la consulta correspondiente para realizar la eliminación según el id del registro seleccionado
-    function deleteRegistro($id){
+    function deleteRegistro($id,$saldo){
+        /*
+        $saldoN =0;
+        $sql = "select saldo from registros order by id desc limit 1";
+        $res = $this->db->query($sql);
+        foreach ($res->result()as $row){
+            $saldoN =$row->saldo;
+        }
+        $saldoN = $saldoN -$saldo;*/
         $this->db->where("id",$id);
         $this->db->delete("registros");
+    }
+
+    //Se agrega la función para realizar la busqueda de los registros con la consulta
+    function buscarRegistro($fecInic,$fecTerm){
+        
+        $sql = "select * from registros where fecha between".$fecInic. " and " .$fecTerm. " order by fecha desc";
+        return $this->db->query($sql);
     }
 
     function buscarPacienteRut($rut){

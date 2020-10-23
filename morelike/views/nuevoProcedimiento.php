@@ -30,10 +30,25 @@
 			<div class="col-6">
 				<button class="btn btn-success" style="width: 100%; margin-top: 10px;" onclick="guardarNuevoProcedimientos()">Guardar <i class="far fa-save"></i></button>
 			</div>
-			<div class="col-6">
-				<button class="btn btn-warning" style="width: 100%; margin-top: 10px;" onclick="verVusquedas()" id="verBusquedas">Buscar <i class="fas fa-search-plus"></i></button>
-				<button class="btn btn-warning" id="ocultarBusquedas" style="display:none; width: 100%; margin-top: 10px;" onclick="ocultarBusquedas()">Buscar <i class="fas fa-search-plus"></i></button>
+			<div style="margin-top:1%" class="col-6">
+			<div style =" display:flex;flex-direction:row"> 
+
+			<!--Se agregan 2 campos para la busqueda de fecha por intervalo, fecha inicio y fecha termino--> 
+			
+				<h5 style="margin-right:5%"> Fecha inicio </h5>
+				<input style="margin-right:5%" type="date" class="form-control" placeholder="Fecha Nacimiento" aria-label="Fecha Nacimiento" id="fecInic" >
+				<h5 style="margin-right:5%"> Fecha Término </h5>
+				<input style="margin-left:5%" type="date" class="form-control" placeholder="Fecha Nacimiento" aria-label="Fecha Nacimiento" id="fecTerm" >
+				</div>
+				<!--Se agrega una llamada para ejecutar la busqueda con el botón-->
+				<button class="btn btn-warning" style="width: 100%; margin-top: 10px;" onclick="buscar()" id="verBusquedas">Buscar <i class="fas fa-search-plus"></i></button>
+				
+				<!---<button class="btn btn-warning" style="width: 100%; margin-top: 10px;" onclick="verVusquedas()" id="verBusquedas">Buscar <i class="fas fa-search-plus"></i></button>
+				<button class="btn btn-warning" id="ocultarBusquedas" style="display:none; width: 100%; margin-top: 10px;" onclick="ocultarBusquedas()">Buscar <i class="fas fa-search-plus"></i></button>--->
 			</div>
+		 
+			
+					
 		</div>
 	</div>
 	<div class="col-12 col-lg-6" style="display: none" id="divBusqueda">
@@ -183,6 +198,15 @@
 			},'json')
 	}
 
+//Se agrega la funcion de buscar que recibe los datos de los calendarios y llama a principal
+	function buscar(){
+		var fecIni = $("#fecInic").val();
+		var fecTerm =$("#fecTerm").val();
+		$.post(base_url+"Principal/buscarRegistro",{
+			fecIni:fecIni,
+			fecTermin:fecTerm
+		})
+	}
 	//Se agrega la función para eliminar un registro
 	function deleteRegistro(id){
 		$.post(base_url+"Principal/deleteRegistro",{id:id},function(){
