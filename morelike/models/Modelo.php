@@ -79,7 +79,7 @@ class Modelo extends CI_Model{
     }
 
     //Se agrega la función para eliminar un registro en modelo, la cual realiza la consulta correspondiente para realizar la eliminación según el id del registro seleccionado
-    function deleteRegistro($id,$saldo){
+    function deleteRegistro($id){
         /*
         $saldoN =0;
         $sql = "select saldo from registros order by id desc limit 1";
@@ -88,13 +88,34 @@ class Modelo extends CI_Model{
             $saldoN =$row->saldo;
         }
         $saldoN = $saldoN -$saldo;*/
-        $this->db->where("id",$id);
+        $sql = "select saldo from registros where id < ".$id." order by id desc limit 1";
+        $res = $this->db->query($sql);
+        $saldo =0;
+        foreach ($res->result() as $row) {
+            $saldo = $row->saldo;
+        }
+
+
+        //Borrar registro
+        $this->db->where("id", $id);
         $this->db->delete("registros");
+
+
+        //Metodo para modificar el saldo de los registros que le siguen al registro modificado
+        $sql = "select * from registros where id > ".$id." order by id";
+        $res = $this->db->query($sql);
+        foreach($res->result() as $row){
+            $saldo = $saldo + $row->ingreso - $row->egreso;
+            $data = array("saldo"=>$saldo);
+            $this->db->where("id", $row->id);
+            $this->db->update("registros", $data);
+        }
+
     }
 
     //Se agrega la función para realizar la busqueda de los registros con la consulta
     function buscarRegistro($fecInic,$fecTerm){
-        
+
         $sql = "select * from registros where fecha between ".$fecInic. " and " .$fecTerm. " order by fecha desc";
         return $this->db->query($sql);
     }
@@ -102,7 +123,7 @@ class Modelo extends CI_Model{
     function editRegistro($descripcion, $ingreso, $egreso, $id){
         //Falta calcular el saldo...
         //Saldo será la diferencia entre el saldo anterior +Ingreso -Egreso
-        $sql = "select saldo from registros order by id desc limit 1";
+        $sql = "select saldo from registros where id between 1 and ".$id." order by id desc limit 1";
         $res = $this->db->query($sql);
         $saldo =0;
         foreach ($res->result() as $row) {
@@ -112,6 +133,15 @@ class Modelo extends CI_Model{
         $data = array("descripcion"=>$descripcion,"ingreso"=>$ingreso,"egreso"=>$egreso, "saldo"=>$saldo);
         $this->db->where("id", $id);
         $this->db->update("registros",$data);
+        //Metodo para modificar el saldo de los registros que le siguen al registro modificado
+        $sql = "select * from registros where id > ".$id." order by id";
+        $res = $this->db->query($sql);
+        foreach($res->result() as $row){
+            $saldo = $saldo + $row->ingreso - $row->egreso;
+            $data = array("saldo"=>$saldo);
+            $this->db->where("id", $row->id);
+            $this->db->update("registros", $data);
+        }
     }
     function buscarPacienteRut($rut){
         $this->db->where("rut",$rut);
