@@ -95,7 +95,7 @@ class Modelo extends CI_Model{
     //Se agrega la función para realizar la busqueda de los registros con la consulta
     function buscarRegistro($fecInic,$fecTerm){
         
-        $sql = "select * from registros where fecha between".$fecInic. " and " .$fecTerm. " order by fecha desc";
+        $sql = "select * from registros where fecha between ".$fecInic. " and " .$fecTerm. " order by fecha desc";
         return $this->db->query($sql);
     }
 

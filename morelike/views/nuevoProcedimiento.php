@@ -200,11 +200,11 @@
 
 //Se agrega la funcion de buscar que recibe los datos de los calendarios y llama a principal
 	function buscar(){
-		var fecIni = $("#fecInic").val();
+		var fecInic = $("#fecInic").val();
 		var fecTerm =$("#fecTerm").val();
 		$.post(base_url+"Principal/buscarRegistro",{
-			fecIni:fecIni,
-			fecTermin:fecTerm
+			fecInic:fecInic,
+			fecTerm:fecTerm
 		})
 	}
 	//Se agrega la función para eliminar un registro
