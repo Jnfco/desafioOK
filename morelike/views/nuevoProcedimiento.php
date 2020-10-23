@@ -201,15 +201,7 @@
 			},'json')
 	}
 
-//Se agrega la funcion de buscar que recibe los datos de los calendarios y llama a principal
-	function buscar(){
-		var fecInic = $("#fecInic").val();
-		var fecTerm =$("#fecTerm").val();
-		$.post(base_url+"Principal/buscarRegistro",{
-			fecInic:fecInic,
-			fecTerm:fecTerm
-		})
-	}
+
 	//Se agrega la función para eliminar un registro
 	function deleteRegistro(id){
 		$.post(base_url+"Principal/deleteRegistro",{id:id},function(){
@@ -307,6 +299,9 @@
 					for(var i =0;i<data.cant;i++){
 						if(data.data[i].saldo>0){
 							cadena+="<tr><td>"+(data.data[i].fecha).substring(0,10)+"</td><td>"+data.data[i].descripcion+"</td><td>"+data.data[i].ingreso+"</td><td>"+data.data[i].egreso+"</td><td class='btn-success'>"+data.data[i].saldo+"</td></tr>";
+						
+						
+						
 						}else{
 							cadena+="<tr><td>"+(data.data[i].fecha).substring(0,10)+"</td><td>"+data.data[i].descripcion+"</td><td>"+data.data[i].ingreso+"</td><td>"+data.data[i].egreso+"</td><td class='btn-danger'>"+data.data[i].saldo+"</td></tr>";
 						}
@@ -317,6 +312,53 @@
 			},'json'
 		);
 	}
+
+//Se agrega la funcion de buscar que recibe los datos de los calendarios y llama a principal
+function buscar(){
+		var fecInic = $("#fecInic").val();
+		var fecTerm =$("#fecTerm").val();
+		$.post(
+			base_url+"Principal/buscarRegistro",
+			{fecInic:fecInic,
+			fecTerm:fecTerm},
+			function(data){
+				//var encabezado = "<th>Fecha</th><th>Descripción</th><th>Ingreso</th><th>Egreso</th><th>Saldo</th><th>Opciones</th>";
+				if (data.cant >0){
+					var cadena ="<table class='table table-striped' id='tablaRegistros'> <th>Fecha</th><th>Descripción</th><th>Ingreso</th><th>Egreso</th><th>Saldo</th><th>Opciones</th>";
+					for (var i=0;i<data.cant;i++){
+						if(data.data[i].saldo>0){
+							cadena+=
+							"<tr><td>"+
+							(data.data[i].fecha).substring(0,10)+
+							"</td><td>"+
+							data.data[i].descripcion+
+							"</td><td>"+
+							data.data[i].ingreso+
+							"</td><td>"+
+							data.data[i].egreso+
+							"</td><td class='btn-success'>"+
+							data.data[i].saldo+
+							"</td></tr>";
+
+				
+						}
+						else{
+							cadena+="<tr><td>"+(data.data[i].fecha).substring(0,10)+"</td><td>"+data.data[i].descripcion+"</td><td>"+data.data[i].ingreso+"</td><td>"+data.data[i].egreso+"</td><td class='btn-danger'>"+data.data[i].saldo+"</td></tr>";
+
+						}
+					}
+					cadena = cadena+"</table>"
+					$("#idOculto").val(data.ultimo);
+					$("#contenedor").hide("fast");
+					$("#tablaRegistros").html(cadena);
+					$("#contenedor").show("fast");
+				}
+
+			},'json',
+			
+			);
+	}
+
 	function saveImagen(id,archivo,nombre){
 		$.ajax({
         	url:base_url+"Principal/saveImagen",

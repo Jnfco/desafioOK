@@ -137,7 +137,15 @@ class Principal extends CI_Controller {
 	function buscarRegistro(){
 		$fecInic = $this->input->post("fecInic");
 		$fecTerm = $this->input->post("fecTerm");
-		$this->Modelo->buscarRegistro($fecInic,$fecTerm);
+		$result = $this->Modelo->buscarRegistro($fecInic,$fecTerm);
+		$res['data'] = $result ->result();
+		$res['cant'] = $result->num_rows();
+		$ultimo =0;
+		foreach ($result -> result() as $row){
+			$ultimo =$row->id;
+		}
+		$res['ultimo']=$ultimo;
+		echo json_encode($res);
 	}
 
 	function traeMasRegistros(){
