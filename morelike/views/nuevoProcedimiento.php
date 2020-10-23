@@ -12,7 +12,7 @@
 				<h4>Ingreso</h4>
 			</div>
 			<div class="col-4 text-center">
-				<h4>Egreso</h4>	
+				<h4>Egreso</h4>
 			</div>
 		</div>
 		<div class="row">
@@ -26,9 +26,10 @@
 				<input class="form-control" type="number" id="egreso" onchange="formato('egreso')">
 			</div>
 		</div>
+		<!--Error en el nombre, tiene una s demas-->
 		<div class="row">
 			<div class="col-6">
-				<button class="btn btn-success" style="width: 100%; margin-top: 10px;" onclick="guardarNuevoProcedimientos()">Guardar <i class="far fa-save"></i></button>
+				<button class="btn btn-success" style="width: 100%; margin-top: 10px;" onclick="guardarNuevoProcedimiento()">Guardar <i class="far fa-save"></i></button>
 			</div>
 			<div style="margin-top:1%" class="col-6">
 			<div style =" display:flex;flex-direction:row"> 
@@ -69,21 +70,23 @@
 				<th>Ingreso</th>
 				<th>Egreso</th>
 				<th>Saldo</th>
-				
+				<th>Opciones</th>
 				<?php foreach($data as $row):?>
 				<tr>
 					<td><?=substr($row->fecha,0,10)?></td>
-					<td><?=$row->descripcion?></td>
-					<td><?=number_format($row->ingreso,0,",",".")?></td>
-					<td><?=number_format($row->egreso,0,",",".")?></td>
-					
-					
+					<td><input contenteditable="true" id="descripcion<?=$row->id?>" value="<?=$row->descripcion?>"></td>
+					<td><input contenteditable="true" id="ingreso<?=$row->id?>" value="<?=number_format($row->ingreso,0,",",".")?>"></td>
+					<td><input contenteditable="true" id="egreso<?=$row->id?>" value="<?=number_format($row->egreso,0,",",".")?>">
+					</td>
 					<?php if($row->saldo>0):?>
 					<td class="btn-success"><?=number_format($row->saldo,0,",",".")?></td>
 					<?php else:?>
 					<td class="btn-danger"><?=number_format($row->saldo,0,",",".")?></td>
 					
 					<?php endif;?>
+					<td>
+						<button class="btn btn-success" onclick="editRegistro(<?=$row->id?>)"><i class="far fa-save">
+					<td>
 					<!---- Se agrega un botón para eleminar un registro en particular el cual llama la función de eliminar registro-->
 					<td><button class="btn btn-danger" onclick="deleteRegistro(<?=$row->id;?>)" ><i class="far fa-trash-alt"></i></button></td>
 				</tr>
@@ -93,7 +96,7 @@
 			<button class="btn btn-info" onclick="addRegistros()" style="width: 100%; margin-top:5px;"><i class="fas fa-cloud-download-alt fa-2x"></i></button>
 		</div>
 	<?php endif;?>
-	
+
 </div>
 <style type="text/css">
 	.textArea{
@@ -157,7 +160,7 @@
 	      .on( "change", function() {
 	        from.datepicker( "option", "maxDate", getDate( this ) );
 	      });
-	 
+
 	    function getDate( element ) {
 	      var date;
 	      try {
@@ -165,7 +168,7 @@
 	      } catch( error ) {
 	        date = null;
 	      }
-	 
+
 	      return date;
 	    }
 	});
@@ -183,7 +186,7 @@
 		}
 		$("#imagenMsj").show();
 	}
-	
+
 	function buscarPacienteRut(){
 		var rut = $("#rutPacienteBusqueda").val();
 		$.post(base_url+"Principal/buscarPacienteRut",{rut:rut},
@@ -226,7 +229,7 @@
 		$("#edadPaciente").val(edad);
 	}
 	function guardarNuevoProcedimiento(){
-		
+
 		var descripcion = $("#descripcion").val();
 		var ingreso = ($("#ingreso").val().split(".")).join("");
 		var egreso = ($("#egreso").val().split(".")).join("");
@@ -291,7 +294,7 @@
 	}
 	function formato(campo){
 		var cadena = $("#"+campo).val();
-		
+
 		$("#"+campo).val(cadena);
 	}
 	function addRegistros(){
@@ -333,6 +336,17 @@
 	  			id:id, archivo:archivo, nombre:nombre
 	  		}
   		);*/
+	}
+	function editRegistro(id){
+		$.post(base_url+"Principal/editRegistro",{
+			descripcion :$("#descripcion"+id).val(),
+			ingreso 	:$("#ingreso"+id).val(),
+			egreso 		:$("#egreso"+id).val(),
+			id		:id
+		},function(){
+			$("#tablaRegistros").hide("fast");
+			nuevoRegistro();
+		},'json');
 	}
 
 </script>

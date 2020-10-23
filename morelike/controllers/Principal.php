@@ -13,7 +13,7 @@ class Principal extends CI_Controller {
         header("Accept-Encoding: gzip | compress | deflate | br| identity| * ");
 	}
 	//Cambiar el nombre de la funcion de indes a index
-	public function index(){   
+	public function index(){
         $this->load->view("ingreso",array("error"=>""));
     }
 	function loginIntra(){
@@ -73,8 +73,8 @@ class Principal extends CI_Controller {
 			$this->loginIntra();
 		}
 	}
-	
-	// se cambia el nombre de log_out a logout 
+
+	// se cambia el nombre de log_out a logout
 	function logout(){
 		$this->session->sess_destroy();
 		redirect(base_url()."Intranet");
@@ -118,6 +118,13 @@ class Principal extends CI_Controller {
 		$ingreso 	 = $this->input->post("ingreso");
 		$egreso 	 = $this->input->post("egreso");
 		$this->Modelo->saveProcedimiento($descripcion,$ingreso,$egreso);
+	}
+	function editRegistro(){
+		$descripcion = $this->input->post("descripcion");
+		$ingreso 	 = $this->input->post("ingreso");
+		$egreso 	 = $this->input->post("egreso");
+		$id 	 = $this->input->post("id");
+		$this->Modelo->editRegistro($descripcion,$ingreso,$egreso, $id);
 	}
 
 	//Se crea la función para eliminar un registro la cual llama al modelo
@@ -247,10 +254,10 @@ class Principal extends CI_Controller {
 	function entrarArea(){
 		$idArea 	= $this->input->post("area");
 		$nombreArea = $this->input->post("nombre");
-		
+
 		$data['area'] 	= $nombreArea;
 		$data['id']   	= $idArea;
-		
+
 		//Debo buscar el listado de archivos que se han cargado en esa area.
 		$this->load->view("entrarArea",$data);
 	}
@@ -299,7 +306,7 @@ class Principal extends CI_Controller {
 		    $mes = substr($infoNombre[0], 0,2);
 		    $anio  = substr($infoNombre[0], 2,4);
 		    $rut  = $infoNombre[1];
-		    
+
 		    $rutCompleto = $this->Modelo->rutCompleto($rut);
 		    $ruta = './uploads/'.$area.'/'.$anio.'/'.$mes.'/'.$rut.'/';
 
