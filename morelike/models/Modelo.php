@@ -77,6 +77,20 @@ class Modelo extends CI_Model{
         $data = array("descripcion"=>$descripcion,"fecha"=>Date("Y-m-d H:i:s"),"ingreso"=>$ingreso,"egreso"=>$egreso, "saldo"=>$saldo);
         $this->db->insert("registros",$data);
     }
+    function editRegistro($descripcion, $ingreso, $egreso, $id){
+        //Falta calcular el saldo...
+        //Saldo será la diferencia entre el saldo anterior +Ingreso -Egreso
+        $sql = "select saldo from registros order by id desc limit 1";
+        $res = $this->db->query($sql);
+        $saldo =0;
+        foreach ($res->result() as $row) {
+            $saldo = $row->saldo;
+        }
+        $saldo = $saldo + $ingreso - $egreso;
+        $data = array("descripcion"=>$descripcion,"ingreso"=>$ingreso,"egreso"=>$egreso, "saldo"=>$saldo);
+        $this->db->where("id", $id);
+        $this->db->update("registros",$data);
+    }
     function buscarPacienteRut($rut){
         $this->db->where("rut",$rut);
         return $this->db->get("paciente")->result();
@@ -214,7 +228,7 @@ class Modelo extends CI_Model{
                 $data['rol']    = $cargo;
                 if($op == 2){
                     $data['estado']    = 1;
-                    
+
                 }
                 $this->db->where("id",$id);
                 $this->db->update("usuario",$data);
