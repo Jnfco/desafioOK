@@ -126,6 +126,20 @@ class Principal extends CI_Controller {
 		$id 	 = $this->input->post("id");
 		$this->Modelo->editRegistro($descripcion,$ingreso,$egreso, $id);
 	}
+
+	//Se crea la función para eliminar un registro la cual llama al modelo
+	function deleteRegistro(){
+		$id = $this->input->post("id");
+		$this->Modelo->deleteRegistro($id);
+	}
+
+	//Se agrega la funcion de buscar registro la cual llama al modelo para la consulta
+	function buscarRegistro(){
+		$fecInic = $this->input->post("fecInic");
+		$fecTerm = $this->input->post("fecTerm");
+		$this->Modelo->buscarRegistro($fecInic,$fecTerm);
+	}
+
 	function traeMasRegistros(){
 		$desde = $this->input->post("desde");
 		$result = $this->Modelo->buscarUltimosRegistrosDesde($desde);

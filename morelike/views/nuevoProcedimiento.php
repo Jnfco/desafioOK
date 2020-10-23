@@ -31,10 +31,25 @@
 			<div class="col-6">
 				<button class="btn btn-success" style="width: 100%; margin-top: 10px;" onclick="guardarNuevoProcedimiento()">Guardar <i class="far fa-save"></i></button>
 			</div>
-			<div class="col-6">
-				<button class="btn btn-warning" style="width: 100%; margin-top: 10px;" onclick="verVusquedas()" id="verBusquedas">Buscar <i class="fas fa-search-plus"></i></button>
-				<button class="btn btn-warning" id="ocultarBusquedas" style="display:none; width: 100%; margin-top: 10px;" onclick="ocultarBusquedas()">Buscar <i class="fas fa-search-plus"></i></button>
+			<div style="margin-top:1%" class="col-6">
+			<div style =" display:flex;flex-direction:row"> 
+
+			<!--Se agregan 2 campos para la busqueda de fecha por intervalo, fecha inicio y fecha termino--> 
+			
+				<h5 style="margin-right:5%"> Fecha inicio </h5>
+				<input style="margin-right:5%" type="date" class="form-control" placeholder="Fecha Nacimiento" aria-label="Fecha Nacimiento" id="fecInic" >
+				<h5 style="margin-right:5%"> Fecha Término </h5>
+				<input style="margin-left:5%" type="date" class="form-control" placeholder="Fecha Nacimiento" aria-label="Fecha Nacimiento" id="fecTerm" >
+				</div>
+				<!--Se agrega una llamada para ejecutar la busqueda con el botón-->
+				<button class="btn btn-warning" style="width: 100%; margin-top: 10px;" onclick="buscar()" id="verBusquedas">Buscar <i class="fas fa-search-plus"></i></button>
+				
+				<!---<button class="btn btn-warning" style="width: 100%; margin-top: 10px;" onclick="verVusquedas()" id="verBusquedas">Buscar <i class="fas fa-search-plus"></i></button>
+				<button class="btn btn-warning" id="ocultarBusquedas" style="display:none; width: 100%; margin-top: 10px;" onclick="ocultarBusquedas()">Buscar <i class="fas fa-search-plus"></i></button>--->
 			</div>
+		 
+			
+					
 		</div>
 	</div>
 	<div class="col-12 col-lg-6" style="display: none" id="divBusqueda">
@@ -55,7 +70,6 @@
 				<th>Ingreso</th>
 				<th>Egreso</th>
 				<th>Saldo</th>
-				<th>Opciones</th>
 				<?php foreach($data as $row):?>
 				<tr>
 					<td><?=substr($row->fecha,0,10)?></td>
@@ -67,10 +81,13 @@
 					<td class="btn-success"><?=number_format($row->saldo,0,",",".")?></td>
 					<?php else:?>
 					<td class="btn-danger"><?=number_format($row->saldo,0,",",".")?></td>
+					
 					<?php endif;?>
 					<td>
 						<button class="btn btn-success" onclick="editRegistro(<?=$row->id?>)"><i class="far fa-save">
 					<td>
+					<!---- Se agrega un botón para eleminar un registro en particular el cual llama la función de eliminar registro-->
+					<td><button class="btn btn-danger" onclick="deleteRegistro(<?=$row->id;?>)" ><i class="far fa-trash-alt"></i></button></td>
 				</tr>
 				<?php endforeach;?>
 			</table>
@@ -182,6 +199,24 @@
 				$("#direccionPaciente").val(data[0].domicilio);
 			},'json')
 	}
+
+//Se agrega la funcion de buscar que recibe los datos de los calendarios y llama a principal
+	function buscar(){
+		var fecInic = $("#fecInic").val();
+		var fecTerm =$("#fecTerm").val();
+		$.post(base_url+"Principal/buscarRegistro",{
+			fecInic:fecInic,
+			fecTerm:fecTerm
+		})
+	}
+	//Se agrega la función para eliminar un registro
+	function deleteRegistro(id){
+		$.post(base_url+"Principal/deleteRegistro",{id:id},function(){
+			$("#contenedor").hide("fast");
+			nuevoProcedimiento();
+		});
+	}
+
 	function calcularEdad(){
 		var fNac = $("#fNacimiento").val();
 		var birthday_arr = fNac.split("-");
