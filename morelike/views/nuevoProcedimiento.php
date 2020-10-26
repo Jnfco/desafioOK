@@ -417,9 +417,9 @@ function buscar(){
 			egreso 		:$("#egreso"+id).val(),
 			id		:id
 		},function(){
-			$("#tablaRegistros").hide("fast");
-			nuevoRegistro();
-		},'json');
+			$("#contenedor").hide("fast");
+			nuevoProcedimiento();
+		});
 	}
 
 </script>
