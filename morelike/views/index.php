@@ -197,40 +197,11 @@
 		var centro = $("#selectCentros").val();
 		$(".btnDisabled").attr("disabled",false);
 	}
-	function buscar(){
-		$("#rutPacienteBusquedaModal").val('');
-		$("#modalBusqueda").modal("show");
-	}
-	function buscarPacienteRutModal(){
-		var rut = $("#rutPacienteBusquedaModal").val();
-		rut = rut.split(" ");
-		rut = rut[0];
-		$.post(
-			base_url+"Principal/buscarFichasPaciente",
-			{
-				rut:rut
-			},
-			function(html,response){
-				buscarPacienteRut(rut);
-				$("#contenedor").html('');
-				$("#modalBusqueda").modal("hide");
-				$("#contenedor").html(html,response);
-				$("#contenedor").show('fast');
-			}
-		);
-	}
-	function buscarPacienteRut(rut){
-		$.post(base_url+"Principal/buscarPacienteRut",{rut:rut},
-			function(data){
-				$("#rutB").val(data[0].rut);
-				$("#nombreB").val(data[0].nombre);
-				$("#apellidosB").val(data[0].apellido);
-				$("#fNacB").val(data[0].fNac);
-				$("#edadB").val(data[0].edad);
-				$("#telefonoB").val(data[0].telefono);
-				$("#direccionB").val(data[0].domicilio);
-			},'json')
-	}
+
+	//Se elimina la función buscar, ya que no se está utilizando
+
+	//Se elimina la funcion buscarPacienteRutModal y buscarPacienteRut , ya que en este sistema no existen pacientes ni busquedas asociadas a estos.
+
 	function openModal(){
 		$("#claveVieja").prop("disabled",false);
 		$("#claveNueva1").prop("disabled",false);

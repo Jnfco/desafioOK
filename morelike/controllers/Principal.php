@@ -160,52 +160,11 @@ class Principal extends CI_Controller {
 		$res['ultimo'] =$ultimo;
 		echo json_encode($res);
 	}
+// Se elimina la función saveImagen ya que en este sistema no se trabaja con imagenes
+//Se elimina la funcion buscarPacienteRut, ya que no se está trabajando con pacientes en este sistema
+//Se elimina la función traePacientes ya que en este sistema no se utiliza la gestión de pacientes
+//Se elimina la función buscarFichasPacientes ya que en este sistema no se manejan las fichas ni pacientes
 
-	function saveImagen(){
-		$nombre = Date("YmdHis")."orden";
-		//echo $nombre;
-		$id = "ordenMedica";
-		if (!file_exists("uploads/".$id)) {
-            mkdir("uploads/".$id, 0777, true);
-        }
-		$config = array(
-			'upload_path' => "uploads/".$id,
-			'file_name' => $nombre,
-			'allowed_types' => "gif|jpg|png|jpeg",//|pdf|doc|docx|rar|zip|txt|xlsx|xls",
-			'overwrite' => TRUE,
-			'max_size' => "2048000", // Can be set to particular file size , here it is 2 MB(2048 Kb)
-			'max_height' => "6000",
-			'max_width' => "6000"
-		);
-		//echo $config['file_name'];
-		//echo $config['file_ext'];
-		$this->load->library('upload', $config);
-		if($this->upload->do_upload("userFile")){
-			$nombre = $this->upload->data('file_name');
-			echo json_encode(array("error"=>"","nombre"=>$nombre,"estado"=>"ok"));
-		}
-		else{
-			$error = array('error' => $this->upload->display_errors(),"nombre"=>"","estado"=>"fail");
-			echo json_encode($error);
-		}
-	}
-	function buscarPacienteRut(){
-		$rut = $this->input->post("rut");
-		$res = $this->Modelo->buscarPacienteRut($rut);
-		echo json_encode($res);
-	}
-	function traePacientes(){
-		$res = $this->Modelo->buscarPacientes();
-		//print_r($res);
-		echo json_encode($res);
-	}
-	function buscarFichasPaciente(){
-		$rut = $this->input->post("rut");
-		$res = $this->Modelo->buscarFichasPaciente($rut);
-		$data['result']		= $res->result();
-		$data['num_rows']	= $res->num_rows();
-		$this->load->view("resumenFichas",$data);
-	}
 	function newUser(){
 		$res['users'] = $this->Modelo->listarUsers();
 		$this->load->view("newUser",$res);
@@ -298,31 +257,9 @@ class Principal extends CI_Controller {
 		$id 	= $this->input->post("id");
 		$this->Modelo->cambiarEstadoFile($estado,$id);
 	}
-	function extract(){
-		$fichero = $this->input->post("fichero");
-		$area 	 = $this->input->post("area");
-		$fecha 	 = Date("Y-m-d");
-		$zip 	 = new ZipArchive();
-		$zip->open('./uploads/'.$area.'/'.$fichero);
-		for ($i=0; $i<$zip->numFiles;$i++) {
-		    //Rescatar el año, mes y rut del trabajador...
-		    //Area -> Año -> Mes -> Rut -> Liquidacion
-		    //Separar nombre de extención...
-		    $infoFichero = explode(".",$zip->statIndex($i)['name']);
-		    $nombre = $infoFichero[0];
-		    $infoNombre = explode("-",$nombre);
-		    $mes = substr($infoNombre[0], 0,2);
-		    $anio  = substr($infoNombre[0], 2,4);
-		    $rut  = $infoNombre[1];
 
-		    $rutCompleto = $this->Modelo->rutCompleto($rut);
-		    $ruta = './uploads/'.$area.'/'.$anio.'/'.$mes.'/'.$rut.'/';
-
-		    //Subir el archivo a la base de datos....
-		    $this->Modelo->subirFichero($area,$zip->statIndex($i)['name'],$fecha,$this->session->userdata('rut'),$ruta,$rutCompleto);
-		    $zip->extractTo($ruta,$zip->statIndex($i)['name']);
-		}
-	}
+	//Se elimina la funcion extract, esto es debido a que esta función se encarga de subir archivos y en este sistema esto no se utiliza
+	
 	function validaClave0(){
 		$claveVieja = $this->input->post("claveVieja");
 		$res = $this->Modelo->loginIntra($this->session->userdata("rut"),$claveVieja);
@@ -332,35 +269,10 @@ class Principal extends CI_Controller {
 		$clave = $this->input->post("clave");
 		$this->Modelo->cambiarClave($clave);
 	}
-	function leerDocumento(){
-		$id 		= $this->input->post("id");
-		$area 		= $this->input->post("area");
-		$ubicacion 	= $this->input->post("ubicacion");
-		$nombre 	= $this->input->post("nombre");
-		$this->Modelo->leerDocumento($id, $area, $nombre);
-		$fp = fopen($ubicacion.$nombre, "r");
-		$txt="";
-		while(!feof($fp)){
-			$actual = fgets($fp);
-			$txt = $txt.$actual;
-		}
-		fclose($fp);
-		//echo $txt;
-		echo json_encode($txt);
-	}
-	function buscarLeidos(){
-		$id = $this->input->post("id");
-		$res = $this->Modelo->buscarLeidos($id);
-		$info = "Leido por:";
-		if($res->num_rows()>0){
-			foreach ($res->result() as $row) {
-				$info = $info."<br>".$row->nombre;
-			}
-		}else{
-			$info = "Sin Lectura";
-		}
-		echo json_encode($info);
-	}
+
+	//Se elimina la función leerDocumento, ya que en este sistema no se utiliza la lectura de documentos
+	// Se elimina la funcion buscarLeidos, ya que en el sistema no se utiliza la lectura de archivos
+
 }
 
 /* End of file welcome.php */

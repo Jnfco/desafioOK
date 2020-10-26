@@ -77,7 +77,7 @@
 					<td><input contenteditable="true" id="descripcion<?=$row->id?>" value="<?=$row->descripcion?>"></td>
 					<td><input contenteditable="true" id="ingreso<?=$row->id?>" value="<?=number_format($row->ingreso,0,",",".")?>"></td>
 					<td><input contenteditable="true" id="egreso<?=$row->id?>" value="<?=number_format($row->egreso,0,",",".")?>">
-					</td>
+					</td>  
 					<?php if($row->saldo>0):?>
 					<td class="btn-success"><?=number_format($row->saldo,0,",",".")?></td>
 					<?php else:?>
@@ -187,20 +187,7 @@
 		$("#imagenMsj").show();
 	}
 
-	function buscarPacienteRut(){
-		var rut = $("#rutPacienteBusqueda").val();
-		$.post(base_url+"Principal/buscarPacienteRut",{rut:rut},
-			function(data){
-				$("#nombrePaciente").val(data[0].nombre);
-				$("#apellidosPaciente").val(data[0].apellido);
-				$("#fNacimiento").val(data[0].fNac);
-				$("#edadPaciente").val(data[0].edad);
-				$("#telefonoPaciente").val(data[0].telefono);
-				$("#emailPaciente").val(data[0].correo);
-				$("#direccionPaciente").val(data[0].domicilio);
-			},'json')
-	}
-
+/// Se elimina la funcion buscarPacienteRut, ya que en este sistema no se trabaja con pacientes ni la busqueda de estos
 
 	//Se agrega la función para eliminar un registro
 	function deleteRegistro(id){
@@ -209,17 +196,8 @@
 			nuevoProcedimiento();
 		});
 	}
+//Se elimina la función calcularEdad, ya que no se utiliza en este sistema
 
-	function calcularEdad(){
-		var fNac = $("#fNacimiento").val();
-		var birthday_arr = fNac.split("-");
-	    var birthday_date = new Date(birthday_arr[0], birthday_arr[1] - 1, birthday_arr[2]);
-	    var ageDifMs = Date.now() - birthday_date.getTime();
-	    //alert(ageDifMs);
-	    var ageDate = new Date(ageDifMs);
-	    var edad = Math.abs(ageDate.getUTCFullYear() - 1970);
-		$("#edadPaciente").val(edad);
-	}
 	function guardarNuevoProcedimiento(){
 
 		var descripcion = $("#descripcion").val();
@@ -328,9 +306,9 @@ function buscar(){
 					for (var i=0;i<data.cant;i++){
 						if(data.data[i].saldo>0){
 							cadena+=
-							"<tr><td>"+
+							"<tr><td>"+"<input contenteditable='true'"+'descripcion"+data."'
 							(data.data[i].fecha).substring(0,10)+
-							"</td><td>"+
+							"></td><td>"+
 							data.data[i].descripcion+
 							"</td><td>"+
 							data.data[i].ingreso+
@@ -339,7 +317,7 @@ function buscar(){
 							"</td><td class='btn-success'>"+
 							data.data[i].saldo+
 							"</td></tr>";
-
+							
 				
 						}
 						else{
@@ -359,26 +337,8 @@ function buscar(){
 			);
 	}
 
-	function saveImagen(id,archivo,nombre){
-		$.ajax({
-        	url:base_url+"Principal/saveImagen",
-         	type:"post",
-         	data:{file:archivo, id:id, nombre:nombre},
-         	processData:false,
-         	contentType:false,
-         	cache:false,
-         	async:false,
-  			success: function(data){
-              	alert("Upload Image Successful.");
-           	}
-     	});
-		/*$.post(
-	  		base_url+"Principal/saveImagen",
-	  		{
-	  			id:id, archivo:archivo, nombre:nombre
-	  		}
-  		);*/
-	}
+// Se elimina la función saveImagen, debido a que en este sistema no se manejan las imagenes
+
 	function editRegistro(id){
 		$.post(base_url+"Principal/editRegistro",{
 			descripcion :$("#descripcion"+id).val(),
