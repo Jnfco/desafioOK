@@ -32,10 +32,10 @@
 				<button class="btn btn-success" style="width: 100%; margin-top: 10px;" onclick="guardarNuevoProcedimiento()">Guardar <i class="far fa-save"></i></button>
 			</div>
 			<div style="margin-top:1%" class="col-6">
-			<div style =" display:flex;flex-direction:row"> 
+			<div style =" display:flex;flex-direction:row">
 
-			<!--Se agregan 2 campos para la busqueda de fecha por intervalo, fecha inicio y fecha termino--> 
-			
+			<!--Se agregan 2 campos para la busqueda de fecha por intervalo, fecha inicio y fecha termino-->
+
 				<h5 style="margin-right:5%"> Fecha inicio </h5>
 				<input style="margin-right:5%" type="date" class="form-control" placeholder="Fecha Nacimiento" aria-label="Fecha Nacimiento" id="fecInic" >
 				<h5 style="margin-right:5%"> Fecha Término </h5>
@@ -43,13 +43,13 @@
 				</div>
 				<!--Se agrega una llamada para ejecutar la busqueda con el botón-->
 				<button class="btn btn-warning" style="width: 100%; margin-top: 10px;" onclick="buscar()" id="verBusquedas">Buscar <i class="fas fa-search-plus"></i></button>
-				
+
 				<!---<button class="btn btn-warning" style="width: 100%; margin-top: 10px;" onclick="verVusquedas()" id="verBusquedas">Buscar <i class="fas fa-search-plus"></i></button>
 				<button class="btn btn-warning" id="ocultarBusquedas" style="display:none; width: 100%; margin-top: 10px;" onclick="ocultarBusquedas()">Buscar <i class="fas fa-search-plus"></i></button>--->
 			</div>
-		 
-			
-					
+
+
+
 		</div>
 	</div>
 	<div class="col-12 col-lg-6" style="display: none" id="divBusqueda">
@@ -82,7 +82,7 @@
 					<td class="btn-success"><?=number_format($row->saldo,0,",",".")?></td>
 					<?php else:?>
 					<td class="btn-danger"><?=number_format($row->saldo,0,",",".")?></td>
-					
+
 					<?php endif;?>
 					<td>
 						<button class="btn btn-success" onclick="editRegistro(<?=$row->id?>)"><i class="far fa-save">
@@ -277,9 +277,9 @@
 					for(var i =0;i<data.cant;i++){
 						if(data.data[i].saldo>0){
 							cadena+="<tr><td>"+(data.data[i].fecha).substring(0,10)+"</td><td>"+data.data[i].descripcion+"</td><td>"+data.data[i].ingreso+"</td><td>"+data.data[i].egreso+"</td><td class='btn-success'>"+data.data[i].saldo+"</td></tr>";
-						
-						
-						
+
+
+
 						}else{
 							cadena+="<tr><td>"+(data.data[i].fecha).substring(0,10)+"</td><td>"+data.data[i].descripcion+"</td><td>"+data.data[i].ingreso+"</td><td>"+data.data[i].egreso+"</td><td class='btn-danger'>"+data.data[i].saldo+"</td></tr>";
 						}
@@ -308,20 +308,51 @@ function buscar(){
 							cadena+=
 							"<tr><td>"+"<input contenteditable='true'"+'descripcion"+data."'
 							(data.data[i].fecha).substring(0,10)+
-							"></td><td>"+
-							data.data[i].descripcion+
 							"</td><td>"+
-							data.data[i].ingreso+
+							"<input contenteditable'true' id='descripcion"+data.data[i].id+
+							"' value='"+data.data[i].descripcion+
+							"'>"+
 							"</td><td>"+
-							data.data[i].egreso+
+							"<input contenteditable'true' id='ingreso"+data.data[i].id+
+							"' value='"+data.data[i].ingreso+
+							"'>"+
+							"</td><td>"+
+							"<input contenteditable'true' id='egreso"+data.data[i].id+
+							"' value='"+data.data[i].egreso+
+							"'>"+
 							"</td><td class='btn-success'>"+
 							data.data[i].saldo+
+							"</td><td>"+
+							"<button class='btn btn-success' onclick='editRegistro("+data.data[i].id+
+							")'><i class='far fa-save'></td>"+
+							"<td><button class='btn btn-danger' onclick='deleteRegistro("+data.data[i].id+")' >"+
+							"<i class='far fa-trash-alt'></i></button></td>"+
 							"</td></tr>";
-							
-				
+
+
 						}
 						else{
-							cadena+="<tr><td>"+(data.data[i].fecha).substring(0,10)+"</td><td>"+data.data[i].descripcion+"</td><td>"+data.data[i].ingreso+"</td><td>"+data.data[i].egreso+"</td><td class='btn-danger'>"+data.data[i].saldo+"</td></tr>";
+							cadena+=
+							"<tr><td>"+(data.data[i].fecha).substring(0,10)+
+							"</td><td>"+
+							"<input contenteditable'true' id='descripcion"+data.data[i].id+
+							"' value='"+data.data[i].descripcion+
+							"'>"+
+							"</td><td>"+
+							"<input contenteditable'true' id='ingreso"+data.data[i].id+
+							"' value='"+data.data[i].ingreso+
+							"'>"+
+							"</td><td>"+
+							"<input contenteditable'true' id='egreso"+data.data[i].id+
+							"' value='"+data.data[i].egreso+
+							"'>"+
+							"</td><td class='btn-danger'>"+data.data[i].saldo+
+							"</td><td>"+
+							"<button class='btn btn-success' onclick='editRegistro("+data.data[i].id+
+							")'><i class='far fa-save'></td>"+
+							"<td><button class='btn btn-danger' onclick='deleteRegistro("+data.data[i].id+")' >"+
+							"<i class='far fa-trash-alt'></i></button></td>"+
+							"</td></tr>";
 
 						}
 					}
@@ -333,7 +364,7 @@ function buscar(){
 				}
 
 			},'json',
-			
+
 			);
 	}
 
@@ -346,9 +377,9 @@ function buscar(){
 			egreso 		:$("#egreso"+id).val(),
 			id		:id
 		},function(){
-			$("#tablaRegistros").hide("fast");
-			nuevoRegistro();
-		},'json');
+			$("#contenedor").hide("fast");
+			nuevoProcedimiento();
+		});
 	}
 
 </script>
