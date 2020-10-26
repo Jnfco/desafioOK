@@ -306,7 +306,7 @@ function buscar(){
 					for (var i=0;i<data.cant;i++){
 						if(data.data[i].saldo>0){
 							cadena+=
-							"<tr><td>"+"<input contenteditable='true'"+'descripcion"+data."'
+							"<tr><td>"+
 							(data.data[i].fecha).substring(0,10)+
 							"</td><td>"+
 							"<input contenteditable'true' id='descripcion"+data.data[i].id+
