@@ -266,7 +266,7 @@ class Modelo extends CI_Model{
         $res = $this->db->query($sql);
         return $res;
     }
-    function addNewLink($usuario,$area,$op,$id){
+    function addNewLink($usuario,$area,$op,$rol,$id){
         if($op==0){
             $sql = "select * from usce where usce.idus = ".$usuario." and usce.idce = ".$area;
             $res = $this->db->query($sql);
@@ -274,6 +274,7 @@ class Modelo extends CI_Model{
                 $data['idce'] = $area;
                 $data['idus'] = $usuario;
                 $data['fecha'] = Date("Y-m-d");
+                $data['rol']=$rol;
                 $this->db->insert("usce",$data);
                 $this->historialIntranet("Tabla: usce - Insercion de Link - Area: ".$area." Usuario: ".$usuario);
                 return false;

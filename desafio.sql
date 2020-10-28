@@ -94,22 +94,24 @@ INSERT INTO `registros` (`id`, `fecha`, `descripcion`, `ingreso`, `egreso`, `sal
 --
 -- Estructura de tabla para la tabla `usce`
 --
-
+-- Se agrega la tabla rol
 CREATE TABLE `usce` (
   `id` int(11) NOT NULL,
   `idce` int(11) NOT NULL,
   `idus` int(11) NOT NULL,
   `estado` int(11) NOT NULL,
+  `rol` int(11) NOT NULL,
   `fecha` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `usce`
 --
+-- Se agregan roles al insert de la tabla usce
 
 INSERT INTO `usce` (`id`, `idce`, `idus`, `estado`, `fecha`) VALUES
-(16, 11, 11, 0, '2020-07-27'),
-(17, 11, 10, 1, '2020-07-27');
+(16, 11, 11, 0,1 ,'2020-07-27'),
+(17, 11, 10, 1,2, '2020-07-27');
 
 -- --------------------------------------------------------
 
