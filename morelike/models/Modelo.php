@@ -103,7 +103,7 @@ class Modelo extends CI_Model{
 
     //Se agrega la función para realizar la busqueda de los registros con la consulta
     function buscarRegistro($fecInic,$fecTerm){
-        
+
         $sql = "select * from registros where fecha between '".$fecInic. " 00:00' and '" .$fecTerm. " 00:00' order by fecha desc";
         return $this->db->query($sql);
     }
@@ -287,10 +287,10 @@ class Modelo extends CI_Model{
             if($res->num_rows() == 0){
                 $data['idce'] = $area;
                 $data['idus'] = $usuario;
-                $data['rol'] = $rol;
+                //$data['rol'] = $rol;
                 $this->db->where("id",$id);
                 $this->db->update("usce",$data);
-                $this->historialIntranet("Tabla: usce - Cambio de Link - Area: ".$area." Usuario: ".$usuario." Rol: ".$rol);
+                $this->historialIntranet("Tabla: usce - Cambio de Link - Area: ".$area." Usuario: ".$usuario);
                 return false;
             }else{
                 return true;
@@ -310,7 +310,7 @@ class Modelo extends CI_Model{
     }
 
     //Se eliminan las funciones subirFichero, buscarFicherosSubidos y eliminarFichero, ya que en este sistema no se trabaja con ficheros
-   
+
     function cambiarEstadoFile($estado, $id){
         $data['estado'] = $estado;
         $this->db->where("id",$id);

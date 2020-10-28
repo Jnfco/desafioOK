@@ -46,7 +46,7 @@
 			<?php foreach($links as $row):?>
 				<tr>
 					<td>
-						<select class="form-control" placeholder="Usuario" aria-label="Usuario" id="nombre<?=$row->id?>">
+						<select class="form-control" placeholder="Usuario" aria-label="Usuario" id="nombre<?=$row->idu?>">
 					  	<?php foreach($usuarios as $row1):?>
 					  		<?php if($row1->id == $row->idu):?>
 					  			<option selected value="<?=$row1->id?>"><?=$row1->nombre?></option>
@@ -57,7 +57,7 @@
 			  </select>
 					</td>
 					<td>
-						<select class="form-control" placeholder="Areas" aria-label="Areas" id="area<?=$row->id?>">
+						<select class="form-control" placeholder="Areas" aria-label="Areas" id="area<?=$row->idc?>">
 					  	<?php foreach($areas as $row1):?>
 					  		<?php if($row1->id == $row->idc):?>
 					  			<option selected value="<?=$row1->id?>"><?=$row1->nombre?></option>
@@ -67,7 +67,7 @@
 					  	<?php endforeach;?>
 			  </select>
 					</td>
-					
+
 					<?php if($row->estadousce == 0):?>
 						<td><i class="far fa-eye fa-2x"></i></td>
 						<!--Para llamar a las funciones respectivas a continuación se cambió el atributo que piden las funciones de idc a idce que es como están en el modelo-->
@@ -77,7 +77,7 @@
 						<td><button class="btn btn-info" onclick="cambiarEstadoUA(0,<?=$row->idusce?>)"><i class="far fa-eye"></i></button></td>
 					<?php endif;?>
 					<td>
-						<button class="btn btn-success" onclick="editLink(<?=$row->idusce;?>)"><i class="far fa-save"></i></button>
+						<button class="btn btn-success" onclick="editLink(<?=$row->idu?>,<?=$row->idc?>,<?=$row->idusce;?>)"><i class="far fa-save"></i></button>
 					</td>
 					<td>
 						<button class="btn btn-danger" onclick="deleteLink(<?=$row->idusce;?>)"><i class="far fa-trash-alt"></i></button>
@@ -105,10 +105,14 @@
 			nuevoLink();
 		});
 	}
-	function editLink(id){
-		addLink($("#nombre"+id).val(),$("#area"+id).val(),$("#rol"+id).val(),1,id);
+	function editLink(iduser, idarea, id){
+
+
+		addLink($("#nombre"+iduser).val(),$("#area"+idarea).val(),1,id);
+
 	}
 	function addLink(usuario,area,op,id){ //op=0 Insertar, op=1 Editar
+
 		$.post(base_url+"Principal/addNewLink",{
 			usuario :usuario,
 			area 	:area,
