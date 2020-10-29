@@ -13,12 +13,13 @@
 			<!--se añaden las etiquetas de php que faltan -->
 			<?php foreach($usuarios as $row):?>
 				<tr>
-					<td>
-						<input type="text" class="form-control" id="nombreUsuario<?=$row->id?>" value="<?=$row->nombre?>"/>
-					</td>
-					<td>
-						<input type="text" class="form-control" id="acceso<?=$row->id?>" value="<?=$row->acceso?>"/>
-					</td>
+					
+                       
+                        <td><?=$row->nombre?></td>
+				
+					
+                    <td><?=$row->acceso?></td>
+					
 				</tr>
 			<?php endforeach;?>
 		</table>
