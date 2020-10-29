@@ -274,6 +274,17 @@ class Principal extends CI_Controller {
 	//Se elimina la función leerDocumento, ya que en este sistema no se utiliza la lectura de documentos
 	// Se elimina la funcion buscarLeidos, ya que en el sistema no se utiliza la lectura de archivos
 
+	//Se agrega la funcion para llamar a la vista de reportes
+
+	function newReport(){
+		
+		$result = $this->Modelo->buscarUltimosRegistros();
+		$res['usuarios'] = $this->Modelo->listarUsersActivos();
+		$res['data'] = $result->result();
+		$this->load->view("newReport",$res);
+
+	}
+
 }
 
 /* End of file welcome.php */
