@@ -67,8 +67,19 @@
 					  	<?php endforeach;?>
 			  </select>
 					</td>
-					
+
 					<?php if($row->estadousce == 0):?>
+						<td>
+							<select class="form-control" placeholder="Rol" aria-label="Rol" id="rol<?=$row->idusce?>">
+								<?php if($row->rol == 1):?>
+									<option selected value="1">Usuario</option>
+									<option value="2">Editor</option>
+								<?php else:?>
+									<option value="1">Usuario</option>
+									<option selected value="2">Editor</option>
+								<?php endif;?>
+							</select>
+						</td>
 						<td><i class="far fa-eye fa-2x"></i></td>
 						<!--Para llamar a las funciones respectivas a continuación se cambió el atributo que piden las funciones de idc a idce que es como están en el modelo-->
 						<td><button class="btn btn-info" onclick="cambiarEstadoUA(1,<?=$row->idusce?>)"><i class="far fa-eye-slash"></i></button></td>
@@ -108,7 +119,7 @@
 	function editLink(iduser, idarea, id){
 
 
-		addLink($("#nombre"+iduser).val(),$("#area"+idarea).val(),1,id);
+		addLink($("#nombre"+iduser).val(),$("#area"+idarea).val(),1,$("#rol"+id).val(),id);
 
 	}
 
