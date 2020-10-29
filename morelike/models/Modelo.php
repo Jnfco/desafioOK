@@ -257,7 +257,7 @@ class Modelo extends CI_Model{
     }
     function listarLinks(){
         //se cambia la consulta en usce.idce por usce.id
-        $sql ="select usuario.id as idu, usuario.nombre, usuario.rut, usuario.estado as estadousuario, centro.id as idc, centro.nombre, centro.estado as estadocentro, usce.estado as estadousce, usce.id as idusce from usce join usuario on usuario.id = usce.idus join centro on centro.id = usce.idce order by usuario.nombre, centro.nombre";
+        $sql ="select usuario.id as idu, usuario.nombre, usuario.rut, usuario.estado as estadousuario, centro.id as idc, centro.nombre, centro.estado as estadocentro, usce.estado as estadousce, usce.id as idusce, usce.rol as rol from usce join usuario on usuario.id = usce.idus join centro on centro.id = usce.idce order by usuario.nombre, centro.nombre";
         //$sql = "select usuario.id as idu, usuario.nombre, usuario.rut, usuario.estado as estadousuario, centro.id as idc, centro.nombre, centro.estado as estadocentro, usce.estado as estadousce, usce.idce from usce join usuario on usuario.id = usce.idus join centro on centro.id = usce.idce order by usuario.nombre, centro.nombre";
         return $this->db->query($sql)->result();
     }
@@ -283,12 +283,13 @@ class Modelo extends CI_Model{
             }
         }else{
             //Se cambia en la consulta de usce.ida a usce.idce
+            //No se permiten usuarios repetidos dentro de un area.
             $sql = "select * from usce where usce.idus = ".$usuario." and usce.idce = ".$area." and usce.id !=".$id;
             $res = $this->db->query($sql);
             if($res->num_rows() == 0){
                 $data['idce'] = $area;
                 $data['idus'] = $usuario;
-                //$data['rol'] = $rol;
+                $data['rol'] = $rol;
                 $this->db->where("id",$id);
                 $this->db->update("usce",$data);
                 $this->historialIntranet("Tabla: usce - Cambio de Link - Area: ".$area." Usuario: ".$usuario);

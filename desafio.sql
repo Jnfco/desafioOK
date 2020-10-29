@@ -109,7 +109,7 @@ CREATE TABLE `usce` (
 --
 -- Se agregan roles al insert de la tabla usce
 
-INSERT INTO `usce` (`id`, `idce`, `idus`, `estado`, `fecha`) VALUES
+INSERT INTO `usce` (`id`, `idce`, `idus`, `estado`, `rol`,`fecha`) VALUES
 (16, 11, 11, 0,1 ,'2020-07-27'),
 (17, 11, 10, 1,2, '2020-07-27');
 
