@@ -29,8 +29,8 @@
 				<tr>
                     <td><?=$row->fecha?></td>
                     <td><?=$row->descripcion?></td>
-                    <td><?=$row->ingreso?></td>
-                    <td><?=$row->egreso?></td>
+                    <td><?=number_format($row->ingreso,0,",",".")?></td>
+                    <td><?=number_format($row->egreso,0,",",".")?></td>
 				</tr>
 			<?php endforeach;?>
 		</table>
@@ -42,7 +42,7 @@
 			<?php foreach($total as $row):?>
 				<tr>
 					<td><?=$row->fecha?></td>
-					<td><?=$row->saldo?></td>
+					<td><?=number_format($row->saldo,0,",",".")?></td>
 				</tr>
 			<?php endforeach;?>
 		</table>
