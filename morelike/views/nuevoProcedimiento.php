@@ -267,6 +267,12 @@
 
 		$("#"+campo).val(cadena);
 	}
+
+
+
+function numberWithDots(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 	function addRegistros(){
 		$.post(
 			base_url+"Principal/traeMasRegistros",
@@ -285,14 +291,14 @@
 							"'>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='ingreso"+data.data[i].id+
-							"' value=<?='"+number_format(data.data[i].ingreso,0,",",".")
-							"'?>>"+
+							"' value='"+numberWithDots(data.data[i].ingreso)+
+							"'>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='egreso"+data.data[i].id+
-							"' value='"+data.data[i].egreso+
+							"' value='"+numberWithDots(data.data[i].egreso)+
 							"'>"+
 							"</td><td class='btn-success'>"+
-							data.data[i].saldo+
+							numberWithDots(data.data[i].saldo)+
 							"</td><td>"+
 							"<button class='btn btn-success' onclick='editRegistro("+data.data[i].id+
 							")'><i class='far fa-save'></td>"+
@@ -311,13 +317,13 @@
 							"'>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='ingreso"+data.data[i].id+
-							"' value='"+data.data[i].ingreso+
+							"' value='"+numberWithDots(data.data[i].ingreso)+
 							"'>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='egreso"+data.data[i].id+
-							"' value='"+data.data[i].egreso+
+							"' value='"+numberWithDots(data.data[i].egreso)+
 							"'>"+
-							"</td><td class='btn-danger'>"+data.data[i].saldo+
+							"</td><td class='btn-danger'>"+numberWithDots(data.data[i].saldo)+
 							"</td><td>"+
 							"<button class='btn btn-success' onclick='editRegistro("+data.data[i].id+
 							")'><i class='far fa-save'></td>"+
@@ -360,14 +366,14 @@ function buscar(){
 							"'>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='ingreso"+data.data[i].id+
-							"' value='"+data.data[i].ingreso+
+							"' value='"+numberWithDots(data.data[i].ingreso)+
 							"'>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='egreso"+data.data[i].id+
-							"' value='"+data.data[i].egreso+
+							"' value='"+numberWithDots(data.data[i].egreso)+
 							"'>"+
 							"</td><td class='btn-success'>"+
-							data.data[i].saldo+
+							numberWithDots(data.data[i].saldo)+
 							"</td><td>"+
 							"<button class='btn btn-success' onclick='editRegistro("+data.data[i].id+
 							")'><i class='far fa-save'></td>"+
@@ -386,13 +392,13 @@ function buscar(){
 							"'>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='ingreso"+data.data[i].id+
-							"' value='"+data.data[i].ingreso+
+							"' value='"+numberWithDots(data.data[i].ingreso)+
 							"'>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='egreso"+data.data[i].id+
-							"' value='"+data.data[i].egreso+
+							"' value='"+numberWithDots(data.data[i].egreso)+
 							"'>"+
-							"</td><td class='btn-danger'>"+data.data[i].saldo+
+							"</td><td class='btn-danger'>"+numberWithDots(data.data[i].saldo)+
 							"</td><td>"+
 							"<button class='btn btn-success' onclick='editRegistro("+data.data[i].id+
 							")'><i class='far fa-save'></td>"+
