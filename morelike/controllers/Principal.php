@@ -260,7 +260,7 @@ class Principal extends CI_Controller {
 	}
 
 	//Se elimina la funcion extract, esto es debido a que esta función se encarga de subir archivos y en este sistema esto no se utiliza
-	
+
 	function validaClave0(){
 		$claveVieja = $this->input->post("claveVieja");
 		$res = $this->Modelo->loginIntra($this->session->userdata("rut"),$claveVieja);
@@ -277,10 +277,11 @@ class Principal extends CI_Controller {
 	//Se agrega la funcion para llamar a la vista de reportes
 
 	function newReport(){
-		
+
 		$result = $this->Modelo->buscarUltimosRegistros();
 		$res['usuarios'] = $this->Modelo->listarUsersActivos();
 		$res['data'] = $result->result();
+		$res['total'] = $this->Modelo->buscarUltimoSaldo()->result();
 		$this->load->view("newReport",$res);
 
 	}

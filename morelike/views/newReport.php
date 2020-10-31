@@ -4,9 +4,9 @@
 	<div class="col">
 		<h3 class="text-center">Reportes</h3>
 		<hr>
-		<h4 class="text-center">Accesos de usuarios</h4>  
-        
-        <!---tabla para mostrar --->
+		<h4 class="text-center">Accesos de usuarios</h4>
+
+        <!--tabla para mostrar -->
         <table class="table table-striped">
 			<th>Nombre</th>
 			<th>Último acceso</th>
@@ -18,7 +18,7 @@
 				</tr>
 			<?php endforeach;?>
 		</table>
-        <h3 class="text-center">Registros por día</h3>   
+        <h3 class="text-center">Registros por día</h3>
         <table class="table table-striped">
 			<th>Fecha</th>
             <th>Descripción</th>
@@ -33,6 +33,18 @@
                     <td><?=$row->egreso?></td>
 				</tr>
 			<?php endforeach;?>
-		</table>    
+		</table>
+
+		<h3 class="text-center">Saldo total por dia</h3>
+		<table class="table table-striped">
+			<th>Fecha</th>
+			<th>Saldo</th>
+			<?php foreach($total as $row):?>
+				<tr>
+					<td><?=$row->fecha?></td>
+					<td><?=$row->saldo?></td>
+				</tr>
+			<?php endforeach;?>
+		</table>
 	</div>
 </div>

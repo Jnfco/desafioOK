@@ -77,7 +77,7 @@
 					<td><input contenteditable="true" id="descripcion<?=$row->id?>" value="<?=$row->descripcion?>"></td>
 					<td><input contenteditable="true" id="ingreso<?=$row->id?>" value="<?=number_format($row->ingreso,0,",",".")?>"></td>
 					<td><input contenteditable="true" id="egreso<?=$row->id?>" value="<?=number_format($row->egreso,0,",",".")?>">
-					</td>  
+					</td>
 					<?php if($row->saldo>0):?>
 					<td class="btn-success"><?=number_format($row->saldo,0,",",".")?></td>
 					<?php else:?>
@@ -272,20 +272,66 @@
 			base_url+"Principal/traeMasRegistros",
 			{desde:$("#idOculto").val()},
 			function(data){
-				if(data.cant > 0){
+				if (data.cant >0){
 					var cadena ="";
-					for(var i =0;i<data.cant;i++){
+					for (var i=0;i<data.cant;i++){
 						if(data.data[i].saldo>0){
-							cadena+="<tr><td>"+(data.data[i].fecha).substring(0,10)+"</td><td>"+data.data[i].descripcion+"</td><td>"+data.data[i].ingreso+"</td><td>"+data.data[i].egreso+"</td><td class='btn-success'>"+data.data[i].saldo+"</td></tr>";
+							cadena+=
+							"<tr><td>"+
+							(data.data[i].fecha).substring(0,10)+
+							"</td><td>"+
+							"<input contenteditable'true' id='descripcion"+data.data[i].id+
+							"' value='"+data.data[i].descripcion+
+							"'>"+
+							"</td><td>"+
+							"<input contenteditable'true' id='ingreso"+data.data[i].id+
+							"' value='"+data.data[i].ingreso+
+							"'>"+
+							"</td><td>"+
+							"<input contenteditable'true' id='egreso"+data.data[i].id+
+							"' value='"+data.data[i].egreso+
+							"'>"+
+							"</td><td class='btn-success'>"+
+							data.data[i].saldo+
+							"</td><td>"+
+							"<button class='btn btn-success' onclick='editRegistro("+data.data[i].id+
+							")'><i class='far fa-save'></td>"+
+							"<td><button class='btn btn-danger' onclick='deleteRegistro("+data.data[i].id+")' >"+
+							"<i class='far fa-trash-alt'></i></button></td>"+
+							"</td></tr>";
 
 
+						}
+						else{
+							cadena+=
+							"<tr><td>"+(data.data[i].fecha).substring(0,10)+
+							"</td><td>"+
+							"<input contenteditable'true' id='descripcion"+data.data[i].id+
+							"' value='"+data.data[i].descripcion+
+							"'>"+
+							"</td><td>"+
+							"<input contenteditable'true' id='ingreso"+data.data[i].id+
+							"' value='"+data.data[i].ingreso+
+							"'>"+
+							"</td><td>"+
+							"<input contenteditable'true' id='egreso"+data.data[i].id+
+							"' value='"+data.data[i].egreso+
+							"'>"+
+							"</td><td class='btn-danger'>"+data.data[i].saldo+
+							"</td><td>"+
+							"<button class='btn btn-success' onclick='editRegistro("+data.data[i].id+
+							")'><i class='far fa-save'></td>"+
+							"<td><button class='btn btn-danger' onclick='deleteRegistro("+data.data[i].id+")' >"+
+							"<i class='far fa-trash-alt'></i></button></td>"+
+							"</td></tr>";
 
-						}else{
-							cadena+="<tr><td>"+(data.data[i].fecha).substring(0,10)+"</td><td>"+data.data[i].descripcion+"</td><td>"+data.data[i].ingreso+"</td><td>"+data.data[i].egreso+"</td><td class='btn-danger'>"+data.data[i].saldo+"</td></tr>";
 						}
 					}
+					cadena = cadena+"</table>"
 					$("#idOculto").val(data.ultimo);
+
 					$("#tablaRegistros").append(cadena);
+
 				}
 			},'json'
 		);

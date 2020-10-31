@@ -349,5 +349,9 @@ class Modelo extends CI_Model{
         $sql = "select * from registros where id <".$desde." order by fecha desc limit 10";
         return $this->db->query($sql);
     }
+    function buscarUltimoSaldo(){
+        $sql = "select DATE_FORMAT(fecha, '%Y-%m-%d') as fecha, max(id), saldo from registros group by DATE_FORMAT(fecha, '%Y-%m-%d')";
+        return $this->db->query($sql);
+    }
 }
 ?>
