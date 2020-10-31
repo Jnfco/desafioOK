@@ -285,8 +285,8 @@
 							"'>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='ingreso"+data.data[i].id+
-							"' value='"+data.data[i].ingreso+
-							"'>"+
+							"' value=<?='"+number_format(data.data[i].ingreso,0,",",".")
+							"'?>>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='egreso"+data.data[i].id+
 							"' value='"+data.data[i].egreso+
@@ -356,7 +356,7 @@ function buscar(){
 							(data.data[i].fecha).substring(0,10)+
 							"</td><td>"+
 							"<input contenteditable'true' id='descripcion"+data.data[i].id+
-							"' value='"+data.data[i].descripcion+
+							"' value='"+data.data[i].descripcion+ 
 							"'>"+
 							"</td><td>"+
 							"<input contenteditable'true' id='ingreso"+data.data[i].id+
