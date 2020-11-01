@@ -350,7 +350,7 @@ class Modelo extends CI_Model{
         return $this->db->query($sql);
     }
     function buscarUltimoSaldo(){
-        $sql = "select DATE_FORMAT(fecha, '%Y-%m-%d') as fecha, saldo, t2.id from registros join (select max(id) as id from registros group by DATE_FORMAT(fecha, '%Y-%m-%d')) as t2 on registros.id = t2.id";
+        $sql = "select DATE_FORMAT(fecha, '%Y-%m-%d') as fecha, t2.ingreso, t2.egreso, t2.id from registros join (select max(id) as id , sum(ingreso) as ingreso, sum(egreso) as egreso from registros group by DATE_FORMAT(fecha, '%Y-%m-%d')) as t2 on registros.id = t2.id";
         return $this->db->query($sql);
     }
 }

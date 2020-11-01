@@ -35,14 +35,16 @@
 			<?php endforeach;?>
 		</table>
 
-		<h3 class="text-center">Saldo total por dia</h3>
+		<h3 class="text-center">Ingreso y egreso total por dia</h3>
 		<table class="table table-striped">
 			<th>Fecha</th>
-			<th>Saldo</th>
+			<th>Ingreso total</th>
+			<th>Egreso total</th>
 			<?php foreach($total as $row):?>
 				<tr>
 					<td><?=$row->fecha?></td>
-					<td><?=number_format($row->saldo,0,",",".")?></td>
+					<td><?=number_format($row->ingreso,0,",",".")?></td>
+					<td><?=number_format($row->egreso,0,",",".")?></td>
 				</tr>
 			<?php endforeach;?>
 		</table>
